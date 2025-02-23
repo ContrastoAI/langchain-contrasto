@@ -22,5 +22,5 @@ python_files = glob.glob(f"{sys.argv[1]}/**/*.py", recursive=True)
 if python_files:
     sys.exit(run_check_imports(python_files))
 else:
-    print("No Python files found to check") # noqa: T201
+    print("No Python files found to check")  # noqa: T201
     sys.exit(0)

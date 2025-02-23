@@ -10,8 +10,9 @@ class LangchainInjectDetectToolInput(BaseModel):
     """
     A model that detect if the input is an injection.
     """
+
     input: str = Field(description="The input to detect if it is an injection.")
-    
+
 
 class LangchainInjectDetectTool(BaseTool):
     """
@@ -25,10 +26,7 @@ class LangchainInjectDetectTool(BaseTool):
 
     contrasto_client: TrustableClient
 
-    model_config = ConfigDict(
-        extra="forbid",
-        arbitrary_types_allowed=True
-    )
+    model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=True)
 
     def _validate_input(self, raw_input: str) -> LangchainInjectDetectToolInput:
         try:
@@ -38,7 +36,7 @@ class LangchainInjectDetectTool(BaseTool):
 
     def _run(self, input: str) -> str:
         validated_input = self._validate_input(input)
-        
+
         try:
             output = self.contrasto_client.check_inject(validated_input)
             if isinstance(output, Exception):
@@ -49,7 +47,7 @@ class LangchainInjectDetectTool(BaseTool):
 
     async def _arun(self, input: str) -> str:
         validated_input = self._validate_input(input)
-        
+
         try:
             output = await self.contrasto_client.check_inject(validated_input)
             if isinstance(output, Exception):
@@ -57,4 +55,3 @@ class LangchainInjectDetectTool(BaseTool):
             return output
         except Exception as e:
             raise ValueError(f"Injection check failed: {e}")
-
