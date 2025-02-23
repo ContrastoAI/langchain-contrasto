@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "langchain-contrasto"
+version = "0.1.0"
+description = ""
+authors = ["CarlosVecina <carlosvecinatebar@gmail.com>"]
+readme = "README.md"
+packages = [
+    {include = "langchain_contrasto"},
+    {include = "contrasto"}
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+langchain-core = "^0.3.15"
+langchain-tests = "^0.3.11"
+
+[tool.poetry.group.nb.dependencies]
+ipykernel = "^6.29.5"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
