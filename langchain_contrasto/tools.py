@@ -1,7 +1,9 @@
 from typing import Type
-from contrasto import ContrastoClient, TrustableClient
+
 from langchain_core.tools import BaseTool
-from pydantic import BaseModel, Field, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, Field
+
+from contrasto import TrustableClient
 
 
 class LangchainInjectDetectToolInput(BaseModel):
@@ -18,7 +20,7 @@ class LangchainInjectDetectTool(BaseTool):
 
     name: str = "detect_inject"
     description: str = "Detect if the input is an injection."
-    args_schema: Type[BaseModel] = LangchainInjectDetectToolInput #Field(default_factory=LangchainInjectDetectToolInput)
+    args_schema: Type[BaseModel] = LangchainInjectDetectToolInput
     return_direct: bool = False
 
     contrasto_client: TrustableClient
