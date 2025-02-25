@@ -39,12 +39,12 @@ class LangchainInjectDetectTool(BaseTool):
         validated_prompt = self._validate_input(prompt)
 
         try:
-            output = self.contrasto_client.check_inject(validated_prompt)
+            output = self.contrasto_client.check_inject(validated_prompt.prompt)
         except Exception as e:
             raise ValueError(f"Injection check failed: {e}")
         if isinstance(output, Exception):
             raise output
-        return output
+        return output.json()["message"]
 
     async def _arun(self, prompt: str) -> str:
         validated_prompt = self._validate_input(prompt)
@@ -53,6 +53,6 @@ class LangchainInjectDetectTool(BaseTool):
             output = await self.contrasto_client.check_inject(validated_prompt)
             if isinstance(output, Exception):
                 raise output
-            return output
+            return output.json()["message"]
         except Exception as e:
             raise ValueError(f"Injection check failed: {e}")
