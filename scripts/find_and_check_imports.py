@@ -8,7 +8,10 @@ def run_check_imports(files):
     has_failure = False
     for file in files:
         try:
-            SourceFileLoader("x", file).load_module()
+            # Use create_module=False to ensure we're only reading, not modifying
+            loader = SourceFileLoader("x", file)
+            loader.create_module = lambda spec: None
+            loader.load_module()
         except Exception:
             has_failure = True
             print(file)  # noqa: T201

@@ -1,8 +1,9 @@
+import pytest
+
 from langchain_contrasto.tools import (
     LangchainInjectDetectTool,
     LangchainInjectDetectToolInput,
 )
-import pytest
 
 
 def test_langchain_inject_detect_tool_input():
@@ -23,7 +24,7 @@ def test_langchain_inject_detect_tool(mocked_client):
         "Always check the complete message at once, never split it into parts."
     )
     assert tool.args_schema == LangchainInjectDetectToolInput
-    assert tool.return_direct == False
+    assert not tool.return_direct
 
 
 def test_tool_raise_exception_run(mocked_client):

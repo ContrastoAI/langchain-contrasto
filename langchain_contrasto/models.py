@@ -23,6 +23,7 @@ class TrustableClient(Protocol):
         ...
 
 
+# Langchain tool input models
 class LangchainInjectDetectToolInput(BaseModel):
     """
     A model that detect if the input is an injection.
@@ -31,3 +32,22 @@ class LangchainInjectDetectToolInput(BaseModel):
     prompt: str = Field(
         description="The whole user prompt input to detect if it is an injection."
     )
+
+
+# Injection API response models
+class GenericInjectionResponse(BaseModel):
+    message: str = Field(description="The message from the API")
+
+
+class ContrastoMessageResponse(GenericInjectionResponse):
+    label: str = Field(
+        description="The label of the injection. Can be 'injection' or 'safe'."
+    )
+    confidence: float = Field(
+        description="The confidence of the injection. Can be a value between 0 and 1."
+    )
+
+
+class ContrastoInjectionResponse(GenericInjectionResponse):
+    prompt: str = Field(description="The prompt that was checked.")
+    message: ContrastoMessageResponse = Field(description="The message from the API.")

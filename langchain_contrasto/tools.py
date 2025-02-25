@@ -4,7 +4,10 @@ from langchain_core.tools import BaseTool
 from pydantic import BaseModel, ConfigDict
 
 from contrasto import TrustableClient
-from langchain_contrasto.models import LangchainInjectDetectToolInput
+from langchain_contrasto.models import (
+    GenericInjectionResponse,
+    LangchainInjectDetectToolInput,
+)
 
 
 class LangchainInjectDetectTool(BaseTool):
@@ -44,7 +47,7 @@ class LangchainInjectDetectTool(BaseTool):
             raise ValueError(f"Injection check failed: {e}")
         if isinstance(output, Exception):
             raise output
-        return output.json()["message"]
+        return GenericInjectionResponse.model_validate(output.json()).message
 
     async def _arun(self, prompt: str) -> str:
         validated_prompt = self._validate_input(prompt)
@@ -53,6 +56,6 @@ class LangchainInjectDetectTool(BaseTool):
             output = await self.contrasto_client.check_inject(validated_prompt)
             if isinstance(output, Exception):
                 raise output
-            return output.json()["message"]
+            return GenericInjectionResponse.model_validate(output.json()).message
         except Exception as e:
             raise ValueError(f"Injection check failed: {e}")

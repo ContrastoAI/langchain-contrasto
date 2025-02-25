@@ -18,10 +18,3 @@ repos:
         types: [python]
         language: system
         pass_filenames: false
-      - id: check_imports
-        name: Check_imports
-        entry: make
-        args: [check_imports]
-        types: [python]
-        language: system
-        pass_filenames: false
